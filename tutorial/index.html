@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw 源码学习教程</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --bg-card: #151923;
+    --bg-hover: #1d2230;
+    --text: #e5e7eb;
+    --text-dim: #94a3b8;
+    --accent: #ff8a3d;
+    --accent-2: #ffb980;
+    --border: #24293a;
+    --success: #10b981;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 56px 24px 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .hero::before {
+    content: "🦞";
+    font-size: 64px;
+    display: block;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 40px;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 12px;
+  }
+  .hero p.sub {
+    color: var(--text-dim);
+    font-size: 17px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    margin: 16px 4px 0;
+  }
+
+  /* Section */
+  section { margin-bottom: 56px; }
+  section h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  section h2::before {
+    content: "";
+    width: 4px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* Chapters */
+  .chapters { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 720px) { .chapters { grid-template-columns: 1fr 1fr; } }
+
+  .chapter {
+    display: block;
+    padding: 20px 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    position: relative;
+  }
+  .chapter:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .chapter .ch-num {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .chapter .ch-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .chapter .ch-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  /* Path cards */
+  .paths { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 720px) { .paths { grid-template-columns: repeat(3, 1fr); } }
+  .path {
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .path h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: var(--accent-2);
+  }
+  .path p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* Intro box */
+  .intro {
+    padding: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    margin-bottom: 24px;
+  }
+  .intro p { margin-bottom: 10px; }
+  .intro p:last-child { margin-bottom: 0; }
+  .intro strong { color: var(--accent-2); }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .meta a { color: var(--accent-2); text-decoration: none; }
+  .meta a:hover { text-decoration: underline; }
+
+  footer {
+    text-align: center;
+    padding: 32px 0;
+    color: var(--text-dim);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+
+  code {
+    background: var(--bg-card);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: "SF Mono", Consolas, monospace;
+    font-size: 0.9em;
+    color: var(--accent-2);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>OpenClaw 源码学习教程</h1>
+    <p class="sub">从零到精通：读懂这套「AI Agent 网关」的架构设计与源码实现</p>
+    <span class="tag">TypeScript</span>
+    <span class="tag">Node.js</span>
+    <span class="tag">AI Agent</span>
+    <span class="tag">9 章共约 3.5 万字</span>
+  </div>
+
+  <section>
+    <h2>教程定位</h2>
+    <div class="intro">
+      <p>这不是一份「怎么用 OpenClaw」的使用文档 — <strong>官方文档 docs.openclaw.ai 已经够详细</strong>。</p>
+      <p>这是一份面向开发者的<strong>源码学习指南</strong>，目标是让你：</p>
+      <p>① <strong>看懂</strong>：一个生产级 AI Agent Gateway 是怎么设计出来的<br>
+         ② <strong>读懂</strong>：能顺着入口一路追到任意子系统的核心代码<br>
+         ③ <strong>改得动</strong>：自己写一个 Tool / Skill / Plugin / Channel 适配器</p>
+    </div>
+    <div class="meta">
+      <span>📦 源码：<a href="https://github.com/openclaw/openclaw" target="_blank">github.com/openclaw/openclaw</a></span>
+      <span>📚 官方文档：<a href="https://docs.openclaw.ai/zh-CN" target="_blank">docs.openclaw.ai</a></span>
+      <span>🦞 作者：@steipete</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>章节导航</h2>
+    <div class="chapters">
+      <a class="chapter" href="ch01-定位与架构全景.md">
+        <div class="ch-num">CHAPTER 01</div>
+        <div class="ch-title">项目定位与架构全景</div>
+        <div class="ch-desc">OpenClaw 是什么、核心设计理念、五层整体架构、源码阅读路线地图</div>
+      </a>
+      <a class="chapter" href="ch02-环境搭建与跑通.md">
+        <div class="ch-num">CHAPTER 02</div>
+        <div class="ch-title">环境搭建与跑通</div>
+        <div class="ch-desc">从 clone 到 <code>pnpm gateway:watch</code> 能跑起来，接上第一个 Telegram bot</div>
+      </a>
+      <a class="chapter" href="ch03-gateway源码精读.md">
+        <div class="ch-num">CHAPTER 03</div>
+        <div class="ch-title">Gateway 源码精读</div>
+        <div class="ch-desc">单进程单端口复用 HTTP+WS、OpenAI 兼容层、跨平台 daemon、自服务配置</div>
+      </a>
+      <a class="chapter" href="ch04-pi-agent源码精读.md">
+        <div class="ch-num">CHAPTER 04</div>
+        <div class="ch-title">Pi Agent 内嵌运行时</div>
+        <div class="ch-desc">六阶段工具装配、事件订阅、压缩机制、多 profile 故障转移</div>
+      </a>
+      <a class="chapter" href="ch05-记忆体系.md">
+        <div class="ch-num">CHAPTER 05</div>
+        <div class="ch-title">记忆体系</div>
+        <div class="ch-desc">瞬时 / 会话 / 人设 / 长期 四层记忆的分工，JSONL 树、SOUL.md、QMD 向量检索</div>
+      </a>
+      <a class="chapter" href="ch06-channels源码精读.md">
+        <div class="ch-num">CHAPTER 06</div>
+        <div class="ch-title">Channels 渠道适配层</div>
+        <div class="ch-desc">以 Telegram 为例剖析协议归一化、能力翻译、Pairing/Allowlist 安全层</div>
+      </a>
+      <a class="chapter" href="ch07-tools-skills-plugins.md">
+        <div class="ch-num">CHAPTER 07</div>
+        <div class="ch-title">Tools / Skills / Plugins 三层扩展</div>
+        <div class="ch-desc">能力 / 知识 / 打包 三层解耦，权限控制四档叠加，反幻觉安全机制</div>
+      </a>
+      <a class="chapter" href="ch08-多agent路由.md">
+        <div class="ch-num">CHAPTER 08</div>
+        <div class="ch-title">多 Agent 确定性路由</div>
+        <div class="ch-desc">8 级决策树、mainKey 会话收敛、跨 Agent 资源共享、典型场景实战</div>
+      </a>
+      <a class="chapter" href="ch09-动手扩展.md">
+        <div class="ch-num">CHAPTER 09</div>
+        <div class="ch-title">动手：写一个自己的扩展</div>
+        <div class="ch-desc">三种方案递进：零代码 Skill → 专用 Tool → 完整 Plugin 并发布到 ClawHub</div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>推荐学习路径</h2>
+    <div class="paths">
+      <div class="path">
+        <h3>⚡ 3 小时速通</h3>
+        <p>Ch01 架构全景 → Ch02 跑起来 → Ch03 Gateway → Ch09 动手扩展。适合快速建立整体认知。</p>
+      </div>
+      <div class="path">
+        <h3>📚 1 周系统学习</h3>
+        <p>按顺序每天 1 章，配合源码边读边改，每章做笔记。适合想真正吃透这套架构的工程师。</p>
+      </div>
+      <div class="path">
+        <h3>🎯 针对性查阅</h3>
+        <p>各章独立完整，遇到问题直接查对应章节。例如做插件开发直接看 Ch07 + Ch09。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>适合人群</h2>
+    <div class="intro">
+      <p>✅ Node.js / TypeScript 有一定基础（看得懂 async/await、workspace、ESM）</p>
+      <p>✅ 对 AI Agent、工具调用（tool calling）、LLM 工程有基本认知</p>
+      <p>✅ 想搞清楚「消息网关 / 多渠道适配 / 多 Agent 路由」在工业级产品里到底怎么写</p>
+      <p>✅ 希望自建 AI 助手，把数据和控制权掌握在自己手上</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>教程约定</h2>
+    <div class="intro">
+      <p><strong>源码引用</strong>：用 <code>packages/xxx/src/yyy.ts</code> 格式标注，方便你在仓库里直接跳转</p>
+      <p><strong>配置示例</strong>：所有 JSON 都以 <code>~/.openclaw/openclaw.json</code> 真实可用格式给出</p>
+      <p><strong>⚠️ 标注</strong>：标出踩坑点、易误解的地方</p>
+      <p><strong>🔍 深挖</strong>：可选的深入思考题，帮助举一反三</p>
+      <p><strong>伪代码说明</strong>：部分源码结构基于官方文档 + Node.js/TS 工程惯例推断，拿到真实仓库后以实际代码为准</p>
+    </div>
+  </section>
+
+  <footer>
+    OpenClaw 源码学习教程 · 2026 · Crafted with 🦞
+  </footer>
+
+</div>
+</body>
+</html>
