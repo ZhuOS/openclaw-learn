@@ -4,62 +4,41 @@ layout: home
 hero:
   name: "OpenClaw"
   text: "源码学习教程"
-  tagline: 从零到精通：读懂这套 AI Agent 网关的架构设计与源码实现
-  image:
-    src: /hero-logo.svg
-    alt: OpenClaw
+  tagline: 从工程思想到源码实现，两条路径读懂这套 AI Agent 网关
   actions:
     - theme: brand
-      text: 开始阅读 →
-      link: /ch01-定位与架构全景
+      text: 工程化篇 · 把模型变成生产力 →
+      link: /engineering/
     - theme: alt
-      text: GitHub
-      link: https://github.com/ZhuOS/openclaw-learn
+      text: 源码精读篇 · 9 章深度拆解
+      link: /ch01-定位与架构全景
 
 features:
-  - icon: 🏗️
-    title: Ch01 · 项目定位与架构全景
-    details: OpenClaw 是什么、核心设计理念、六层整体架构、源码阅读路线地图
-    link: /ch01-定位与架构全景
-  - icon: 🚀
-    title: Ch02 · 环境搭建与跑通
-    details: 从 clone 到 pnpm gateway:watch 能跑起来，接上第一个 Telegram bot
-    link: /ch02-环境搭建与跑通
-  - icon: 🔬
-    title: Ch03 · Gateway 源码精读
-    details: 单进程单端口复用 HTTP+WS、OpenAI 兼容层、跨平台 daemon、自服务配置
-    link: /ch03-gateway源码精读
-  - icon: 🤖
-    title: Ch04 · Pi Agent 内嵌运行时
-    details: 六阶段工具装配、事件订阅、压缩机制、多 profile 故障转移
-    link: /ch04-pi-agent源码精读
+  - icon: 🧭
+    title: 两条学习路径
+    details: 工程化篇讲"为什么这么做"——把方法论抽出来；源码精读篇讲"怎么做的"——逐章拆解实现。看你的目的来选。
   - icon: 🧠
-    title: Ch05 · 记忆体系
-    details: 瞬时 / 会话 / 人设 / 长期 四层记忆的分工，JSONL 树、SOUL.md、QMD 向量检索
-    link: /ch05-记忆体系
-  - icon: 📡
-    title: Ch06 · Channels 渠道适配层
-    details: 以 Telegram 为例剖析协议归一化、能力翻译、Pairing/Allowlist 安全层
-    link: /ch06-channels源码精读
-  - icon: 🧩
-    title: Ch07 · Tools / Skills / Plugins
-    details: 能力 / 知识 / 打包 三层解耦，权限控制四档叠加，反幻觉安全机制
-    link: /ch07-tools-skills-plugins
-  - icon: 🔀
-    title: Ch08 · 多 Agent 确定性路由
-    details: 8 级决策树、mainKey 会话收敛、跨 Agent 资源共享、典型场景实战
-    link: /ch08-多agent路由
-  - icon: 🛠️
-    title: Ch09 · 动手：写自己的扩展
-    details: 三种方案递进：零代码 Skill → 专用 Tool → 完整 Plugin 并发布到 ClawHub
-    link: /ch09-动手扩展
+    title: 工程化篇（7 章 · 推荐先读）
+    details: 不读源码，只讲思想。从"模型做不到的 6 件事"切入，把 OpenClaw 的工程方法论抽象成可迁移到自己项目的设计原则。
+    link: /engineering/
+  - icon: 🔬
+    title: 源码精读篇（9 章 · 深度路径）
+    details: 跟着源码一行行追，搞清楚 Gateway / Pi Agent / Channels / Tools / 多 Agent 路由的具体实现机制。
+    link: /ch01-定位与架构全景
+  - icon: 🎯
+    title: 这份教程要回答的核心问题
+    details: 模型很强，但你拿它干活总差点意思——为什么？OpenClaw 在 6 个维度做了什么工程补全，让 LLM 真正成为生产力工具？
+  - icon: 📖
+    title: 适合谁
+    details: 想把 LLM 用到生产环境的开发者；想理解 Agent 工程本质的产品/技术决策者；想做自己 Agent 但卡在"做出 demo 容易做成产品难"的人。
+  - icon: ✨
+    title: 不是什么
+    details: 这不是"OpenClaw 使用文档"——官方文档已经够详细。这是一份让你"看懂为什么、学会怎么搬"的工程方法论教程。
 ---
 
 <style>
 :root {
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #ff8a3d 30%, #ffb980);
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #ff8a3d50 50%, #ffb98050 50%);
-  --vp-home-hero-image-filter: blur(44px);
 }
 </style>
